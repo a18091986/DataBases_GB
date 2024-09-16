@@ -1,0 +1,47 @@
+Практическое задание по теме “Управление БД”
+
+
+1. Установите СУБД MySQL. Создайте в домашней директории файл .my.cnf, задав в нем логин и пароль, который указывался при установке.
+
+behappyman@ubuntu:~$ nano .my.cnf
+
+[client]
+host=192.168.2.162
+user=admin
+password=*******
+
+behappyman@ubuntu:~$ mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 8.0.25-0ubuntu0.20.04.1 (Ubuntu)
+
+
+2. Создайте базу данных example, разместите в ней таблицу users, состоящую из двух столбцов, числового id и строкового name.
+
+CREATE DATABASE example;
+use example;
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(
+id INT,
+name VARCHAR(255)
+)
+
+
+3. Создайте дамп базы данных example из предыдущего задания, разверните содержимое дампа в новую базу данных sample.
+
+behappyman@ubuntu:~$ mysqldump example > dump_for_sample
+mysql> CREATE DATABASE sample
+behappyman@ubuntu:~$ mysql example < dump_for_sample
+mysql> use example
+mysql> show tables;
++-------------------+
+| Tables_in_example |
++-------------------+
+| users             |
++-------------------+
+1 row in set (0,02 sec)
+
+
+4. (по желанию) Ознакомьтесь более подробно с документацией утилиты mysqldump. Создайте дамп единственной таблицы help_keyword базы данных mysql. Причем добейтесь того, чтобы дамп содержал только первые 100 строк таблицы.
+
+mysqldump mysql help_keyword --where="help_keyword_id<101" > dump_1
